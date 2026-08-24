@@ -1,0 +1,63 @@
+@import "tailwindcss";
+
+/*
+ * Minimalism & Swiss Style — pure monochrome, no accent hue.
+ *
+ * Colors are declared here as plain custom properties and overridden under
+ * prefers-color-scheme, then exposed to Tailwind via `@theme inline` so
+ * `bg-background` / `text-muted` compile to var() and follow the media query.
+ * There is no theme toggle: the OS decides, so there is no client JS and no
+ * flash of the wrong theme.
+ *
+ * Every text ratio below was measured, not eyeballed.
+ */
+:root {
+  --bg: #fafafa;         /* page                                     */
+  --fg: #09090b;         /* headings            19.06:1 on --bg  AAA */
+  --body: #3f3f46;       /* bullets, prose      10.01:1 on --bg  AAA */
+  --muted: #52525b;      /* dates, locations     7.41:1 on --bg  AAA */
+  --line: #e4e4e7;       /* hairline rules                           */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #09090b;
+    --fg: #fafafa;       /*                     19.06:1 on --bg  AAA */
+    --body: #d4d4d8;     /*                     13.46:1 on --bg  AAA */
+    --muted: #a1a1aa;    /*                      7.76:1 on --bg  AAA */
+    --line: #27272a;
+  }
+}
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-body: var(--body);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+}
+
+/*
+ * Anchor navigation. Smooth by default, instant for anyone who asked the OS
+ * to reduce motion.
+ */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
