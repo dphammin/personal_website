@@ -1,33 +1,36 @@
 import { Section } from "@/components/Section";
+import { EntryCard } from "@/components/EntryCard";
 import { withMetrics } from "@/components/Metric";
+import { fillAt } from "@/components/accents";
 import type { Project } from "@/content/types";
 
 export function Projects({ projects }: { projects: Project[] }) {
   return (
-    <Section id="projects" title="Projects">
-      <div className="space-y-14">
-        {projects.map((project) => (
-          <article key={project.name}>
-            <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-              <h3 className="min-w-0 wrap-anywhere text-lg font-semibold text-foreground">
-                {project.name}
-              </h3>
-              <p className="shrink-0 font-mono text-xs text-muted">
-                {project.period}
-              </p>
-            </div>
-
-            {project.context && (
-              <p className="mt-1 font-mono text-xs text-muted">
-                {project.context}
-              </p>
-            )}
-
-            <ul className="mt-5 max-w-[68ch] space-y-3">
-              {project.bullets.map((bullet) => (
+    <Section
+      id="projects"
+      index={2}
+      title="Projects"
+      fill="bg-oxblood text-on-oxblood"
+    >
+      <div className="space-y-8">
+        {projects.map((project, i) => (
+          <EntryCard
+            key={project.name}
+            title={project.name}
+            index={i}
+            total={projects.length}
+            badge={project.period}
+            badgeFill={fillAt(i + 2)}
+            specs={
+              project.context ? [{ label: "Lab", value: project.context }] : []
+            }
+          >
+            <ul className="reveal-stagger mt-6 max-w-[68ch] space-y-4">
+              {project.bullets.map((bullet, j) => (
                 <li
                   key={bullet}
-                  className="relative pl-5 leading-[1.6] before:absolute before:left-0 before:text-muted before:content-['—']"
+                  style={{ "--i": j } as React.CSSProperties}
+                  className="relative pl-6 leading-[1.6] text-ink before:absolute before:left-0 before:top-[0.55em] before:h-2 before:w-3 before:bg-edge"
                 >
                   {withMetrics(bullet)}
                 </li>
@@ -35,14 +38,14 @@ export function Projects({ projects }: { projects: Project[] }) {
             </ul>
 
             {project.links && project.links.length > 0 && (
-              <ul className="mt-5 flex flex-wrap gap-x-5 font-mono text-xs">
-                {project.links.map((link) => (
+              <ul className="mt-6 flex flex-wrap gap-3">
+                {project.links.map((link, j) => (
                   <li key={link.href} className="min-w-0">
                     <a
                       href={link.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="wrap-anywhere text-muted underline-offset-4 transition-colors duration-150 hover:text-foreground hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-foreground"
+                      className={`brut-sm brut-press inline-block wrap-anywhere px-3 py-1.5 font-mono text-xs font-bold uppercase focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-edge ${fillAt(j)}`}
                     >
                       {link.label}
                     </a>
@@ -50,7 +53,7 @@ export function Projects({ projects }: { projects: Project[] }) {
                 ))}
               </ul>
             )}
-          </article>
+          </EntryCard>
         ))}
       </div>
     </Section>

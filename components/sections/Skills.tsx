@@ -1,36 +1,40 @@
 import { Section } from "@/components/Section";
+import { fillAt } from "@/components/accents";
 import type { SkillGroup } from "@/content/types";
 
 export function Skills({ groups }: { groups: SkillGroup[] }) {
   return (
-    <Section id="skills" title="Technical Skills">
-      <dl className="space-y-10">
-        {groups.map((group) => (
-          <div key={group.label} className="sm:grid sm:grid-cols-4 sm:gap-8">
-            <dt className="font-mono text-xs uppercase tracking-[0.14em] text-muted">
-              {group.label}
-            </dt>
-            {/*
-              A middot run, not chips. 25 bordered boxes in one group reads as
-              clutter, and a comma separator would be ambiguous — several items
-              contain their own commas, e.g. "Microarchitecture (5-stage
-              pipelines, out-of-order execution, ...)".
-            */}
-            <dd className="mt-3 max-w-[68ch] font-mono text-sm leading-[1.9] sm:col-span-3 sm:mt-0">
+    <Section
+      id="skills"
+      index={3}
+      title="Technical Skills"
+      fill="bg-forest text-on-forest"
+    >
+      <div className="space-y-8">
+        {groups.map((group, gi) => (
+          <div key={group.label} className="brut regmarks reveal bg-paper p-6 pt-7 sm:p-8 sm:pt-9">
+            <div className="mb-5 flex flex-wrap items-baseline justify-between gap-3 border-b-2 border-edge pb-3">
+              <h3 className="text-lg font-black uppercase tracking-tight text-ink">
+                {group.label}
+              </h3>
+              <span className="font-mono text-[0.65rem] font-bold text-ink opacity-55">
+                {group.items.length} ENTRIES
+              </span>
+            </div>
+            <ul className="reveal-stagger flex flex-wrap gap-2">
               {group.items.map((item, i) => (
-                <span key={item}>
-                  {i > 0 && (
-                    <span aria-hidden className="text-muted">
-                      {" · "}
-                    </span>
-                  )}
-                  <span className="wrap-anywhere">{item}</span>
-                </span>
+                <li
+                  key={item}
+                  style={{ "--i": i } as React.CSSProperties}
+                  className={`brut-sm min-w-0 wrap-anywhere px-2.5 py-1 font-mono text-xs font-bold ${fillAt(i + gi)}`}
+                >
+                  {item}
+                </li>
               ))}
-            </dd>
+            </ul>
           </div>
         ))}
-      </dl>
+      </div>
     </Section>
   );
 }

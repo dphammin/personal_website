@@ -1,26 +1,36 @@
-/**
- * Shared shell for every page section: anchor target, hairline rule, mono
- * eyebrow heading, content. The eyebrow-over-rule treatment is the strongest
- * Swiss signal in the design and it costs one element.
- *
- * Sections own their content, not their outer spacing — that lives here so
- * vertical rhythm stays consistent across the page.
- */
 import type { SectionId } from "@/components/section-ids";
 
+/**
+ * Section shell, framed as a datasheet chapter: a hex index block followed
+ * by the title block. The index is just the section's position, formatted
+ * the way a register map would show it.
+ */
 export function Section({
   id,
+  index,
   title,
+  fill,
   children,
 }: {
   id: SectionId;
+  index: number;
   title: string;
+  fill: string;
   children: React.ReactNode;
 }) {
+  const hex = `0x${index.toString(16).toUpperCase().padStart(2, "0")}`;
+
   return (
-    <section id={id} className="scroll-mt-16 border-t border-line py-16">
-      <h2 className="mb-10 font-mono text-xs uppercase tracking-[0.14em] text-muted">
-        {title}
+    <section id={id} className="scroll-mt-24 py-14">
+      <h2 className="reveal mb-10 flex flex-wrap items-stretch gap-2">
+        <span className="brut flex items-center border-edge bg-paper px-3 font-mono text-sm font-bold text-ink">
+          {hex}
+        </span>
+        <span
+          className={`brut inline-block px-5 py-2 text-2xl font-black uppercase tracking-tight ${fill}`}
+        >
+          {title}
+        </span>
       </h2>
       {children}
     </section>

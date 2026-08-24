@@ -1,4 +1,5 @@
 import { Nav } from "@/components/Nav";
+import { Masthead } from "@/components/Masthead";
 import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/sections/Hero";
 import { Experience } from "@/components/sections/Experience";
@@ -19,12 +20,13 @@ export default function Home() {
     <>
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-6 focus:top-6 focus:z-20 focus:border focus:border-foreground focus:bg-background focus:px-4 focus:py-2 focus:font-mono focus:text-xs focus:text-foreground"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-6 focus:top-6 focus:z-20 focus:border-2 focus:border-edge focus:bg-navy focus:px-4 focus:py-2 focus:font-mono focus:text-xs focus:font-bold focus:text-on-navy"
       >
         Skip to content
       </a>
+      <Masthead resume={resume} />
       <Nav />
-      <div className="mx-auto max-w-3xl px-6">
+      <div className="mx-auto max-w-4xl px-5 sm:px-8">
         {/* Hero lives INSIDE main: the skip link targets #main, and skipping
             past the name and contact details would defeat its purpose.
             tabIndex={-1} makes the target focusable so focus actually moves,
